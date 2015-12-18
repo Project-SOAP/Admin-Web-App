@@ -1,0 +1,18 @@
+<div>
+    <h1>Page d'accueil de votre application de géolocalisation des camions</h1>
+
+
+    <div style="text-align: center;">
+        <form name="formulaire" ng-submit="user.connect">
+            <div class="row" style="margin: 20px;">
+                <label class="col-md-1 col-md-offset-4" style="text-align: right;">Login : </label>
+                <input type="text" ng-model="user.login" class="form-pos col-md-2" required="true">
+            </div>
+            <div class="row" style="margin: 20px;">
+                <label class="col-md-1 col-md-offset-4" style="text-align: right;">Mot de passe : </label>
+                <input type="password" ng-model="user.password" class="form-pos col-md-2" required="true">
+            </div>
+            <button type="submit" value="Connection" class="btn btn-success">Se connecter</button>
+        </form>
+    </div>
+</div>
