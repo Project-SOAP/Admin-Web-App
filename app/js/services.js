@@ -2,11 +2,29 @@
 
 /* Services */
 
-var soaServices = angular.module('soaServices', ['ngResource']);
+var soaServices = angular.module('soaApp');
 
-soaServices.factory('Connect', ['$resource',
-    function ($resource) {
-        return $resource('phones/:phoneId.json', {}, {
-            query: {method: 'GET', params: {phoneId: 'phones'}, isArray: true}
-        });
-    }]);
+soaServices.service('AuthServ', function ($http, $q) {
+
+    this.user;
+    this.logged = false;
+
+    this.getConnexion = function (name, password) {
+        var defer = $q.defer(); // permet de récupérer la réponse déférée
+        $http.post("http://212.227.108.163:20300/api/login/", {"name": name, "password": password})
+                .success((function (srv) {                              // Deuxième couche on passe le service en paramètre
+                    return function (data) {                          // Troisième couche, il est alors possible que les couche communique entre elles
+
+                        srv.user = data;                              // Pour récupérer les variables du service, il faut le passer en paramètre sur plusieurs couches.
+                        srv.logged = true;                            // sinon, pour lui, le this est celui de la requête post envoyée à l'API
+                        return defer.resolve(data);
+                    };
+                })(this))                                             // Première couche, on dit que le service passe en paramètre
+                .error(function (data) {
+
+                    console.log(data);
+                    return defer.reject(data);
+                });
+        return defer.promise; // envoie d'une promesse d'envoi de réponse
+    };
+});

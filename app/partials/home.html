@@ -1,18 +1,21 @@
 <div>
     <h1>Page d'accueil de votre application de géolocalisation des camions</h1>
 
-
     <div style="text-align: center;">
-        <form name="formulaire" ng-submit="user.connect">
+        <form name="formulaire" ng-submit="connect()">
             <div class="row" style="margin: 20px;">
                 <label class="col-md-1 col-md-offset-4" style="text-align: right;">Login : </label>
-                <input type="text" ng-model="user.login" class="form-pos col-md-2" required="true">
+                <input type="text" name="login" ng-model="dash.name" class="form-pos col-md-2" required>
             </div>
             <div class="row" style="margin: 20px;">
                 <label class="col-md-1 col-md-offset-4" style="text-align: right;">Mot de passe : </label>
-                <input type="password" ng-model="user.password" class="form-pos col-md-2" required="true">
+                <input type="password" name="pass" ng-model="dash.password" class="form-pos col-md-2" required>
             </div>
-            <button type="submit" value="Connection" class="btn btn-success">Se connecter</button>
+            <button type="submit" value="Connection" class="btn btn-success" ng-disabled="spinnerLoading">Se connecter</button>
         </form>
+        <img id="spinner" ng-src="img/spinner.gif" ng-show="spinnerLoading" width="160" height="80">
+        <div ng-show="formulaire.$error.errorBack">
+            <span>Veuillez saisir un login et/ou un mot de passe correct</span>
+        </div>
     </div>
 </div>

@@ -3,9 +3,7 @@
 /* App Module */
 
 var SOAApp = angular.module('soaApp', [
-    'ngRoute',
-    'HomeApp',
-    'LocalizeApp'
+    'ngRoute'
 ]);
 
 SOAApp.config(['$routeProvider',
