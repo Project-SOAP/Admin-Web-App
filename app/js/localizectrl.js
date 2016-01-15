@@ -4,12 +4,20 @@
 
 var LocalizeApp = angular.module('soaApp');
 
-LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location',
-    function ($scope, $loc) {
+LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', 'LocalizeServ',
+    function ($scope, $loc, LocalizeServ) {
         // Redirect if no token in localStorage
         if (window.sessionStorage['token'] === undefined) {
             $loc.path("/home");
         }
+
+        io.socket.on('drivers', function (msg) {
+            console.log('coucou bisou io socket')
+            console.log(msg)
+        });
+
+
+
         // Insert of a map
         var map = L.map('map');
         map.setView([46.676, 2.186], 7);
@@ -20,6 +28,8 @@ LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location',
             accessToken: 'pk.eyJ1IjoiYW1hcm9rIiwiYSI6ImNpaWJpaTExcjAwM212cmt5ZHVnejJldXIifQ.Dbzf4gP2FeSZKpTYcPgcSg'
         }).addTo(map);
 
+        $scope.drivers = LocalizeServ.drivers;
+        //L.marker([44.8560, -0.5649]).addTo(map);
 
         $scope.user = {
             id: window.sessionStorage['id'],
