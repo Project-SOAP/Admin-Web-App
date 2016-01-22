@@ -19,7 +19,7 @@ homeApp.controller('HomeCtrl', ['$scope', '$location', 'AuthServ', '$http',
                     window.sessionStorage['name'] = res.name;
                     window.sessionStorage['email'] = res.email;
                     window.sessionStorage['token'] = res.token;
-                    $http.defaults.headers.common["authorization"] = res.token;
+                    $http.defaults.headers.common["Authorization"] = res.token;
                     $scope.user = AuthServ.user;
                     $loc.path("/localize"); //redirection vers la bonne vue
                 }

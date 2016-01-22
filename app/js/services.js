@@ -8,7 +8,7 @@ soaServices.service('AuthServ', function ($http, $q) {
     this.logged = false;
     this.getConnexion = function (name, password) {
         var defer = $q.defer(); // permet de récupérer la réponse déférée
-        $http.post("http://212.227.108.163:20300/api/login/", {"name": name, "password": password})
+        $http.post("http://212.227.108.163:20300/api/login/Admin", {"name": name, "password": password})
                 .success((function (srv) {                              // Deuxième couche on passe le service en paramètre
                     return function (data) {                          // Troisième couche, il est alors possible que les couche communique entre elles
 
@@ -29,23 +29,17 @@ soaServices.service('LocalizeServ', function ($http, $q) {
     this.drivers = {};
     this.getDrivers = function () {
         var defer = $q.defer();
-        io.socket.get("drivers/position", {token: window.sessionStorage['token']},
-                function (driv) {
-//                    angular.forEach(drivers, function (driver, key) {
-//                        if (driver.id === driv.id) {
-//                            drivers[key].position = driver.position;
-//                        } else {
-//                            drivers.push(driv);
-//                        }
-//                    });
-//                    return function (data) {
-//                        return defer.resolve(data);
-//                    };
-return defer.resolve(driv);
-                }, function (data) {
-            console.log(data);
-            return defer.reject(data);
-        });
+        $http.get("http://212.227.108.163:20300/driver").success((function (srv) {
+            return function (data) {
+                srv.drivers = data;
+                return defer.resolve(data);
+            };
+        })(this))
+                .error(function (data) {
+
+                    console.log(data);
+                    return defer.reject(data);
+                });
         return defer.promise;
     };
 });
