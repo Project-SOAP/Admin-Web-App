@@ -4,8 +4,8 @@
 
 var LocalizeApp = angular.module('soaApp');
 
-LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', 'LocalizeServ',
-    function ($scope, $loc, LocalizeServ) {
+LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', '$interval', 'LocalizeServ',
+    function ($scope, $loc, $interval, LocalizeServ) {
         // Redirect if no token in localStorage
         if (window.sessionStorage['token'] === undefined) {
             $loc.path("/home");
@@ -30,7 +30,8 @@ LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', 'LocalizeServ',
             popupAnchor: [10, 2] // point from which the popup should open relative to the iconAnchor
         });
 
-        LocalizeServ.getDrivers().then(function (data) {
+        $interval(LocalizeServ.getDrivers().then(function (data) {
+            $scope.datenow = new Date();
             $scope.drivers = data;
 
             for (var i = 0; i < $scope.drivers.length; i++) {
@@ -46,8 +47,7 @@ LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', 'LocalizeServ',
             }
         }).catch(function (e) {
             console.warn(e);
-        });
-        //L.marker([44.8560, -0.5649]).addTo(map);
+        }), 2000);
 
         $scope.user = {
             id: window.sessionStorage['id'],
@@ -63,6 +63,7 @@ function dateDiff(date1, date2) {
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
     if (diffDays > 0 || diffHrs > 0 || (diffDays === 0 && diffHrs === 0 && diffMins >= 2)) {
         return true;
-    } else return false;
+    } else
+        return false;
 
 }

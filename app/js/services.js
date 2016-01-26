@@ -19,7 +19,7 @@ soaServices.service('AuthServ', function ($http, $q) {
                 })(this))                                             // Première couche, on dit que le service passe en paramètre
                 .error(function (data) {
 
-                    console.log(data);
+                    console.error(data);
                     return defer.reject(data);
                 });
         return defer.promise; // envoie d'une promesse d'envoi de réponse
@@ -37,7 +37,7 @@ soaServices.service('LocalizeServ', function ($http, $q) {
         })(this))
                 .error(function (data) {
 
-                    console.log(data);
+                    console.error(data);
                     return defer.reject(data);
                 });
         return defer.promise;
