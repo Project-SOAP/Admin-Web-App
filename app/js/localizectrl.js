@@ -75,7 +75,7 @@ LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', '$interval', 'Loc
                             if (markersTechs[i] !== undefined
                                     && $scope.techniciens[i].Position.Latitude !== markersTechs[i]._latlng.lat
                                     && $scope.techniciens[i].Position.Longitude !== markersTechs[i]._latlng.lng) {
-                                map.removeLayer(markersDrivers[i]);
+                                map.removeLayer(markersTechs[i]);
                             }
                             var marker = L.marker([$scope.techniciens[i].Position.Latitude, $scope.techniciens[i].Position.Longitude], {icon: techMarker}).addTo(map);
                             markersTechs.push(marker);
