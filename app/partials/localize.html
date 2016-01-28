@@ -1,15 +1,22 @@
 <div class="col-md-12">
-    <div class="col-md-6 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-0">
         <div id="map"></div>
     </div>
     <div class="col-md-3 arrondi">
-        <ul ng-repeat="driver in drivers">
-            <li>{{driver.name}}</li>
-            <li>{{driver.society}}</li>
-            <li>{{driver.updatedAt}}</li>
-            <li>{{driver.Position.Latitude}}</li>
-            <li>{{driver.Position.Longitude}}</li>
-            <li></li>
+        <h3>Liste des camions</h3>
+        <ul class="list-group" ng-repeat="driver in drivers">
+            <li class="list-group-item">Nom: {{driver.name}}</li>
+            <li class="list-group-item">Société: {{driver.society}}</li>
+            <li class="list-group-item">Dernière mise à jour: {{driver.updatedAt | date:"dd/MM/yyyy 'à' H:mm"}}</li>
+        </ul>
+    </div>
+    <div class="col-md-3 arrondi">
+        <h3>Liste des techniciens</h3>
+        <ul class="list-group" ng-repeat="tech in techniciens">
+            <li class="list-group-item">Nom: {{tech.name}}</li>
+            <li class="list-group-item">Société: {{tech.society}}</li>
+            <li class="list-group-item">Dernière mise à jour: {{tech.updatedAt | date:"dd/MM/yyyy 'à' H:mm"}}</li>
+            <button class="list-group-item" ng-click="pushAlert(tech.id)">Alerter</button>
         </ul>
     </div>
 </div>

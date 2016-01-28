@@ -27,14 +27,34 @@ soaServices.service('AuthServ', function ($http, $q) {
 });
 soaServices.service('LocalizeServ', function ($http, $q) {
     this.drivers = {};
+    this.techniciens = {};
+
     this.getDrivers = function () {
         var defer = $q.defer();
-        $http.get("http://212.227.108.163:20300/driver").success((function (srv) {
-            return function (data) {
-                srv.drivers = data;
-                return defer.resolve(data);
-            };
-        })(this))
+        $http.get("http://212.227.108.163:20300/driver")
+                .success((function (srv) {
+                    return function (data) {
+                        srv.drivers = data;
+                        return defer.resolve(data);
+                    };
+                })(this))
+                .error(function (data) {
+
+                    console.error(data);
+                    return defer.reject(data);
+                });
+        return defer.promise;
+    };
+
+    this.getTechnician = function () {
+        var defer = $q.defer();
+        $http.get("http://212.227.108.163:20300/Technician")
+                .success((function (srv) {
+                    return function (data) {
+                        srv.techniciens = data;
+                        return defer.resolve(data);
+                    };
+                })(this))
                 .error(function (data) {
 
                     console.error(data);
