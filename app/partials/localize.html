@@ -12,11 +12,12 @@
     </div>
     <div class="col-md-3 arrondi">
         <h3>Liste des techniciens</h3>
+        
         <ul class="list-group" ng-repeat="tech in techniciens">
             <li class="list-group-item">Nom: {{tech.name}}</li>
             <li class="list-group-item">Société: {{tech.society}}</li>
             <li class="list-group-item">Dernière mise à jour: {{tech.updatedAt | date:"dd/MM/yyyy 'à' H:mm"}}</li>
-            <button class="list-group-item" ng-click="pushAlert(tech.id)">Alerter</button>
+            <button class="list-group-item" ng-click="pushAlert()">Alerter</button>
         </ul>
     </div>
 </div>

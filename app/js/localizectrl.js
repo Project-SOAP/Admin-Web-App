@@ -4,8 +4,8 @@
 
 var LocalizeApp = angular.module('soaApp');
 
-LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', '$interval', 'LocalizeServ',
-    function ($scope, $loc, $interval, LocalizeServ) {
+LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', '$http', '$interval', 'LocalizeServ',
+    function ($scope, $loc, $http, $interval, LocalizeServ) {
         // Redirect if no token in localStorage
         if (window.sessionStorage['token'] === undefined) {
             $loc.path("/home");
@@ -88,8 +88,11 @@ LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', '$interval', 'Loc
         };
 
 
-        $scope.pushAlert = function (id) {
-
+        $scope.pushAlert = function () {
+            $http.put("http://212.227.108.163:20300/AlertMessage/56aa8137526ffb63724ce673", {
+                "body": "Un camion proche de vous nécessite une intervention.",
+                "title": "Un camion proche de vous nécessite une intervention."
+            });
         };
 
     }]);
