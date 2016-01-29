@@ -39,7 +39,6 @@ soaServices.service('LocalizeServ', function ($http, $q) {
                     };
                 })(this))
                 .error(function (data) {
-
                     console.error(data);
                     return defer.reject(data);
                 });

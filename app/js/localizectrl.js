@@ -39,52 +39,47 @@ LocalizeApp.controller('LocalizeCtrl', ['$scope', '$location', '$interval', 'Loc
         });
 
 
-
-        var markersDrivers = [];
-        var markersTechs = [];
+        var markers = [];
+        var deletethis = false;
         $interval(function () {
+            for (var i = 0; i < markers.length; i++) {
+                map.removeLayer(markers[i]);
+                deletethis = true;
+            }
+            if(deletethis) {
+                markers = [];
+            }
             LocalizeServ.getDrivers()
                     .then(function (data) {
                         $scope.datenow = new Date();
                         $scope.drivers = data;
                         for (var i = 0; i < $scope.drivers.length; i++) {
-                            if (markersDrivers[i] !== undefined
-                                    && $scope.drivers[i].Position.Latitude !== markersDrivers[i]._latlng.lat
-                                    && $scope.drivers[i].Position.Longitude !== markersDrivers[i]._latlng.lng) {
-                                map.removeLayer(markersDrivers[i]);
-                            }
                             if (dateDiff(new Date($scope.drivers[i].updatedAt), new Date())) {
                                 $scope.drivers[i].problem = true;
-                                var marker = L.marker([$scope.drivers[i].Position.Latitude, $scope.drivers[i].Position.Longitude], {icon: warnMarker}).addTo(map);
-                                markersDrivers.push(marker);
+                                var marker = L.marker(L.latLng($scope.drivers[i].Position.Latitude, $scope.drivers[i].Position.Longitude), {icon: warnMarker}).addTo(map);
                             } else {
                                 $scope.drivers[i].problem = false;
-                                var marker = L.marker([$scope.drivers[i].Position.Latitude, $scope.drivers[i].Position.Longitude]).addTo(map);
-                                markersDrivers.push(marker);
+                                var marker = L.marker(L.latLng($scope.drivers[i].Position.Latitude, $scope.drivers[i].Position.Longitude)).addTo(map);
                             }
-
                             marker.bindPopup("<b>" + $scope.drivers[i].name + "</b></br>Société : " + $scope.drivers[i].society);
+                            markers.push(marker);
                         }
                     })
                     .catch(function (e) {
                         console.warn(e);
                     });
             LocalizeServ.getTechnician().then(function (data) {
-                        $scope.techniciens = data;
-                        for (var i = 0; i < $scope.techniciens.length; i++) {
-                            if (markersTechs[i] !== undefined
-                                    && $scope.techniciens[i].Position.Latitude !== markersTechs[i]._latlng.lat
-                                    && $scope.techniciens[i].Position.Longitude !== markersTechs[i]._latlng.lng) {
-                                map.removeLayer(markersTechs[i]);
-                            }
-                            var marker = L.marker([$scope.techniciens[i].Position.Latitude, $scope.techniciens[i].Position.Longitude], {icon: techMarker}).addTo(map);
-                            markersTechs.push(marker);
-                        }
-                    })
+                $scope.techniciens = data;
+                for (var i = 0; i < $scope.techniciens.length; i++) {
+                    var marker = L.marker([$scope.techniciens[i].Position.Latitude, $scope.techniciens[i].Position.Longitude], {icon: techMarker}).addTo(map);
+                    markers.push(marker);
+
+                }
+            })
                     .catch(function (e) {
                         console.warn(e);
                     });
-        }, 2000);
+        }, 5000);
 
         $scope.user = {
             id: window.sessionStorage['id'],
